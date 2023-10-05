@@ -22,9 +22,13 @@ int main(int argc, char** argv)
     }
     std::vector<char> buffer(buffer_size, '\0');
     ssize_t bytes_read;
-    while((bytes_read = read(file_id, buffer.data(), buffer_size)) > 0)
+    while(0 != (bytes_read = read(file_id, buffer.data(), buffer_size)))
     {
-        write(1, buffer.data(), bytes_read);
+	if(bytes_read < 0)
+	{
+	    std::cerr << "read failed: ";	
+            write(1, buffer.data(), bytes_read);
+	}
     }
 
     close(file_id);

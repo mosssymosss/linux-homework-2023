@@ -34,18 +34,17 @@ int main(int argc, char** argv)
     {
         if (bytes_read < 0)
         {
-            // Error has happened.
-            perror("read failed: ");
+	    std::cerr << "read failed: ";
             exit(EXIT_FAILURE);
         }
         ssize_t bytes_written = write(file_to_id, buffer.data(), bytes_read);
-        if (bytes_written < 0) {
-            // Error has happened.
-            perror("write failed: ");
+        if (bytes_written < 0)
+       	{      
+	    std::cout<< "write failed: ";
             exit(EXIT_FAILURE);
         }
     }
-    
+    std::cout << "copied successfully";
     close(file_to_id);
     close(file_from_id);
     return 0;
