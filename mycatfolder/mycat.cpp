@@ -27,8 +27,10 @@ int main(int argc, char** argv)
 	if(bytes_read < 0)
 	{
 	    std::cerr << "read failed: ";	
-            write(1, buffer.data(), bytes_read);
+            exit(EXIT_FAILURE);
 	}
+        write(1, buffer.data(), bytes_read);
+	
     }
 
     close(file_id);
