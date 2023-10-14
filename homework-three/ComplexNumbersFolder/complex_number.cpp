@@ -9,7 +9,7 @@ ComplexNumber::ComplexNumber()
     ,modulus(calculate_modulus())
 {
 }
-ComplexNumber::ComplexNumber(long long x, long long y)
+ComplexNumber::ComplexNumber(double x, double y)
         :real_part(x)
         ,im_part(y)
         ,modulus(calculate_modulus())
@@ -50,7 +50,7 @@ ComplexNumber operator-(const ComplexNumber& first, const ComplexNumber& second)
     return ComplexNumber(first.real_part - second.real_part, first.im_part - second.im_part);
 }
 
-ComplexNumber ComplexNumber::operator*(long long num)
+ComplexNumber ComplexNumber::operator*(double num)
 {
     return ComplexNumber(this->real_part * num, this->im_part * num);
 }

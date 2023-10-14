@@ -6,18 +6,18 @@
 class ComplexNumber
 {
 private:
-    long long real_part;
-    long long im_part;
+    double real_part;
+    double im_part;
     double modulus;
 public:
     ComplexNumber();
-    ComplexNumber(long long x, long long y);
+    ComplexNumber(double x, double y);
     ComplexNumber(const ComplexNumber& other);
     ComplexNumber& operator=(const ComplexNumber& other);
     ~ComplexNumber() = default;
     ComplexNumber operator+(const ComplexNumber& other);
     ComplexNumber operator-(const ComplexNumber& other);
-    ComplexNumber operator*(long long num);
+    ComplexNumber operator*(double num);
     double get_modulus() const;
 private:
     double calculate_modulus() const;
