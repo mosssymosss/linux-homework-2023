@@ -7,7 +7,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
-
+#include <ostream>
 
 
 int main(int argc, char** argv)
@@ -17,17 +17,31 @@ int main(int argc, char** argv)
     char  *dir = NULL;
     char  *to = NULL;
     char buf[1000];
+    char path[1000];
+    if(getlogin() == NULL)
+    {
+        std::cerr << "not logged in" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::string username = getlogin();
+    char hostname[4096];
+    if(gethostname(hostname, sizeof(hostname)) < 0)
+    {
+        std::cerr << "not logged in" << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
     while(true)
     {
-        std::cout<<"MeineShell: ";
-        std::cout<<"~/";
-        if(to != NULL)
+        if(getcwd(path, sizeof(path)) == NULL)
         {
-            //printf("%s/", to);
-            std::cout<<to;
+            std::perror("getcwd");
+            exit(errno);
         }
-        std::cout<<"@ ";
+        std::cout<<"\033[91mMeineShell>";
+        std::cout<<"\033[96m"<<username<<"@"<<hostname;
+        std::cout<<"\033[0m:";
+        std::cout<<"\033[93m~"<<path<<"\033[0m@ ";
         std::string input;
         std::getline(std::cin, input);
         if(input == "exit")
