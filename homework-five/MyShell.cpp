@@ -7,11 +7,27 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
+
+
+
 int main(int argc, char** argv)
 {
+
+    char  *gdir = NULL;
+    char  *dir = NULL;
+    char  *to = NULL;
+    char buf[1000];
+
     while(true)
     {
-        std::cout<<"MeineShell@ ";
+        std::cout<<"MeineShell: ";
+        std::cout<<"~/";
+        if(to != NULL)
+        {
+            //printf("%s/", to);
+            std::cout<<to;
+        }
+        std::cout<<"@ ";
         std::string input;
         std::getline(std::cin, input);
         if(input == "exit")
@@ -26,6 +42,15 @@ int main(int argc, char** argv)
             token = strtok(nullptr, " ");
         }
         args.push_back(nullptr);
+        if (!strcmp(args[0], "cd"))
+        {
+            gdir = getcwd(buf, sizeof(buf));
+            dir = strcat(gdir, "/");
+            to = strcat(dir, args[1]);
+
+            chdir(to);
+            continue;
+        }
 
         pid_t pid = fork();
 
@@ -40,7 +65,7 @@ int main(int argc, char** argv)
             if(execvp(args[0], args.data()) < 0)
             {
                 std::cout << args[0] << ": command not found" << std::endl;
-
+                exit(EXIT_FAILURE);
             }
         }
         else
