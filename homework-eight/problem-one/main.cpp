@@ -141,8 +141,16 @@ int main()
     }
 
     int status1, status2;
-    waitpid(firstborn, &status1, 0);
-    waitpid(secondborn, &status2, 0);
+    if(waitpid(firstborn, &status1, 0) == -1)
+    {
+        std::perror("wait");
+        exit(errno);
+    }
+    if(waitpid(secondborn, &status2, 0) == -1)
+    {
+        std::perror("wait");
+        exit(errno);
+    }
 
     return 0;
 }
