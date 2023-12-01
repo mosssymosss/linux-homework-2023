@@ -9,9 +9,9 @@
 #include <cerrno>
 
 
-bool is_prime(int n, int* array)
+std::string is_prime(int n, int* array)
 {
-    return array[n] == 0;
+    return array[n] == 0 ? "Yes" : "No";
 }
 
 int main(int argc, char** argv)
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
         exit(errno);
     }
 
-    std::cout<<std::boolalpha<<is_prime(num, array)<<std::endl;
+    std::cout<<is_prime(num, array)<<std::endl;
 
     if (munmap(array, size) == -1)
     {
