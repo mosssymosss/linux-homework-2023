@@ -34,14 +34,14 @@ void* gorci_telov(void* data)
     else
     {
         std::cerr << "No such operation: " << tel->operation <<std::endl;
-        return nullptr;
+        exit(EXIT_FAILURE);
     }
 
     int fd = open(tel->output_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0666);
     if(fd == -1)
     {
         std::perror("open");
-        return nullptr;
+        exit(errno);
     }
 
     std::string line = std::to_string(tel->num1) + " " + tel->operation + " " + std::to_string(tel->num2) + " " + std::to_string(res);
@@ -49,13 +49,13 @@ void* gorci_telov(void* data)
     if(write(fd, line.c_str(), line.length()) == -1)
     {
         std::perror("write");
-        return nullptr;
+        exit(errno);
     }
 
     if(close(fd) == -1)
     {
         std::perror("close");
-        return nullptr;
+        exit(errno);
     }
 
     return nullptr;
@@ -91,7 +91,11 @@ int main()
 
     for (auto& teler : teler)
     {
-        pthread_join(teler, nullptr);
+        if(pthread_join(teler, nullptr) != 0)
+        {
+            std::perror("join");
+            exit(errno);
+        }
     }
 
     for(int i = 0; i < n; ++i)
